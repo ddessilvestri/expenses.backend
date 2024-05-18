@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenses.WebApi", "Expenses.WebApi.csproj", "{1BA97B22-7959-47D3-8766-E18B9713332E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expenses.WebApi", "Expenses.WebApi.csproj", "{1BA97B22-7959-47D3-8766-E18B9713332E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenses.DB", "..\Expenses.DB\Expenses.DB.csproj", "{BEC3773F-CA21-470B-8D7B-9B19C2D73F6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expenses.DB", "..\Expenses.DB\Expenses.DB.csproj", "{BEC3773F-CA21-470B-8D7B-9B19C2D73F6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenses.Core", "..\Expenses.Core\Expenses.Core.csproj", "{8AD4E5E8-5677-496B-9937-CDA2F2119E17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expenses.Core", "..\Expenses.Core\Expenses.Core.csproj", "{8AD4E5E8-5677-496B-9937-CDA2F2119E17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
