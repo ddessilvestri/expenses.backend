@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -7,12 +8,13 @@ namespace Expenses.Core.Utilities
 {
     public static class JwtGenerator
     {
-        public static string GenerateUserToken(string username)
+        public static string GenerateAuthToken(string username)
         {
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, username),
             };
+
             return GenerateToken(claims, DateTime.UtcNow.AddDays(1));
         }
 
@@ -21,7 +23,6 @@ namespace Expenses.Core.Utilities
             var tokenHandler = new JwtSecurityTokenHandler();
             var secret = Environment.GetEnvironmentVariable("JWT_SECRET");
             var issuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
-
             var key = Encoding.ASCII.GetBytes(secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -32,10 +33,8 @@ namespace Expenses.Core.Utilities
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return tokenHandler.WriteToken(token);
         }
-
     }
-   
-
 }

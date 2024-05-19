@@ -20,19 +20,20 @@ namespace Expenses.Core
 
         public async Task<AuthenticatedUser> SignIn(User user)
         {
-            var dbUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == user.UserName);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == user.UserName);
 
             if (dbUser == null || _passwordHasher.VerifyHashedPassword(dbUser.Password, user.Password) == PasswordVerificationResult.Failed)
             {
                 throw new InvalidUsernamePasswordException("Invalid username or password");
             }
-
-            return new AuthenticatedUser { 
-                UserName = user.UserName,
-                Token = JwtGenerator.GenerateUserToken(user.UserName),
+            
+            return new AuthenticatedUser
+            {
+                UserName = dbUser.UserName,
+                Token = JwtGenerator.GenerateAuthToken(dbUser.UserName),
             };
         }
+
 
         public async Task<AuthenticatedUser> SignUp(User user)
         {
@@ -51,7 +52,7 @@ namespace Expenses.Core
 
             return new AuthenticatedUser { 
                 UserName = user.UserName,
-                Token = JwtGenerator.GenerateUserToken(user.UserName),
+                Token = JwtGenerator.GenerateAuthToken(user.UserName),
             };
         }
 

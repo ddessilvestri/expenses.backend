@@ -32,17 +32,18 @@ namespace Expenses.WebApi.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<IActionResult> SignIn(User user)
+        public async Task<IActionResult> SignIn([FromBody] User user)
         {
             try
             {
                 var result = await _userService.SignIn(user);
-                return Ok(result);
-
-            }catch (InvalidUsernamePasswordException e)
+                return Created("", result);
+            }
+            catch (InvalidUsernamePasswordException e)
             {
-                return StatusCode(401,e.Message);
+                return StatusCode(401, e.Message);
             }
         }
+
     }
 }

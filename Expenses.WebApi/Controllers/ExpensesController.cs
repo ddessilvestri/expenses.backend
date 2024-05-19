@@ -28,7 +28,7 @@ namespace Expenses.WebApi.Controllers
             return Ok(_expensesServices.GetExpense(id));
         }
         [HttpPost]
-        public IActionResult CreateExpense(Expense expense)
+        public IActionResult CreateExpense(ExpenseCore expense)
         {
             var newExpense = _expensesServices.CreateExpense(expense);
             return CreatedAtRoute("GetExpense",new {newExpense.Id},newExpense);

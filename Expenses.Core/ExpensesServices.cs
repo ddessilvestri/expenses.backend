@@ -11,8 +11,15 @@ namespace Expenses.Core
         public ExpensesServices(AppDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+
+            if (httpContextAccessor?.HttpContext?.User?.Identity?.Name == null)
+            {
+                throw new ArgumentNullException("httpContextAccessor.HttpContext.User.Identity.Name", "User identity is not found.");
+            }
+
             _user = _context.Users
-                .First(u => u.UserName == httpContextAccessor.HttpContext.User.Identity.Name);
+                .FirstOrDefault(u => u.UserName == httpContextAccessor.HttpContext.User.Identity.Name)
+                ?? throw new InvalidOperationException("User not found.");
         }
         public ExpenseCore GetExpense(int id) => _context.Expenses
              .Where(e => e.User.Id == _user.Id && e.Id == id)
@@ -23,13 +30,21 @@ namespace Expenses.Core
              .Select(e => (ExpenseCore)e)
              .ToList();
 
-        public ExpenseCore CreateExpense(Expense expense) 
+        public ExpenseCore CreateExpense(ExpenseCore expenseCore)
         {
-            expense.User = _user;
+            var expense = new Expense
+            {
+                Description = expenseCore.Description,
+                Amount = expenseCore.Amount,
+                User = _user
+            };
             _context.Add(expense);
             _context.SaveChanges();
-            return (ExpenseCore)expense;
+
+            return expenseCore;
         }
+
+
 
         public void DeleteExpense(ExpenseCore expense)
         {
