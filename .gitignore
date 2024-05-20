@@ -1,21 +1,19 @@
-# Ignore .sue files
-*.sue
-# Ignore ProjectEvaluation folder inside Expenses.WebApi/.vs
-Expenses.WebApi/.vs/ProjectEvaluation/
-
-# Optional: Ignore other common files and folders that are typically not needed in the repository
+# Ignore bin and obj directories
 bin/
 obj/
+
+# Ignore user-specific files and folders
 .vs/
-*.user
+.user
+*.suo
+
+# Ignore lock files
 *.lock.json
+
+# Ignore log files
 *.log
 *.tlog
+
+# Ignore IDE-specific files
 *.ide
-*.userosscache
-*.suo
-*.userprefs
-*.localhistory
-.vscode/
-.DS_Store
-Thumbs.db
+.userosscache
