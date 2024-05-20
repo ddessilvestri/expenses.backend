@@ -1,6 +1,5 @@
 # Ignore .sue files
 *.sue
-
 # Ignore ProjectEvaluation folder inside Expenses.WebApi/.vs
 Expenses.WebApi/.vs/ProjectEvaluation/
 
