@@ -1,19 +1,6 @@
-# Ignore bin and obj directories
-bin/
-obj/
+# Ignore bin and obj directories recursively
+**/bin/
+**/obj/
 
 # Ignore user-specific files and folders
 .vs/
-.user
-*.suo
-
-# Ignore lock files
-*.lock.json
-
-# Ignore log files
-*.log
-*.tlog
-
-# Ignore IDE-specific files
-*.ide
-.userosscache

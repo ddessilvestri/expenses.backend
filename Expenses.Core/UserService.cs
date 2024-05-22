@@ -22,7 +22,7 @@ namespace Expenses.Core
         {
             var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == user.UserName);
 
-            if (dbUser == null || _passwordHasher.VerifyHashedPassword(dbUser.Password, user.Password) == PasswordVerificationResult.Failed)
+            if (dbUser == null || dbUser.Password == null || _passwordHasher.VerifyHashedPassword(dbUser.Password, user.Password) == PasswordVerificationResult.Failed)
             {
                 throw new InvalidUsernamePasswordException("Invalid username or password");
             }
@@ -45,8 +45,14 @@ namespace Expenses.Core
                 throw new UserNameAlreadyExistsException("Username already exists");
 
             }
-
-            user.Password = _passwordHasher.HashPassword(user.Password);
+            if (!string.IsNullOrEmpty(user.Password))
+            { 
+                user.Password = _passwordHasher.HashPassword(user.Password);
+            }
+            else
+            {
+                user.Password = _passwordHasher.HashPassword(user.UserName);
+            }
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
 
@@ -56,6 +62,34 @@ namespace Expenses.Core
             };
         }
 
-     
+        public async Task<AuthenticatedUser> ExternalSignIn(User user)
+        {
+            var dbUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.ExternalId.Equals(user.ExternalId) && u.ExternalType.Equals(user.ExternalType));
+            if (dbUser == null)
+            {
+                user.UserName = CreateUniqueUsernameFromEmail(user.Email);
+                return await SignUp(user);
+            }
+
+            return new AuthenticatedUser()
+            {
+                UserName = dbUser.UserName,
+                Token = JwtGenerator.GenerateAuthToken(dbUser.UserName)
+            };
+        }
+        private string CreateUniqueUsernameFromEmail(string email)
+        {
+            var emailSplit = email.Split('@').First();
+            var random = new Random();
+            var username = emailSplit;
+
+            while(_context.Users.Any(u => u.UserName.Equals(username)))
+            {
+                username = emailSplit + random.Next(1000000000);
+            }
+
+            return username;
+        }
     }
 }

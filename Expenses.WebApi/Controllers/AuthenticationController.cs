@@ -2,6 +2,7 @@
 using Expenses.Core.CustomExceptions;
 using Expenses.DB;
 using Microsoft.AspNetCore.Mvc;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace Expenses.WebApi.Controllers
 {
@@ -45,5 +46,23 @@ namespace Expenses.WebApi.Controllers
             }
         }
 
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleSignIn([FromQuery] string token)
+        {
+            var payload = await ValidateAsync(token, new ValidationSettings
+            {
+                Audience = new[]
+                {
+                    Environment.GetEnvironmentVariable("CLIENT_ID")
+                }
+            });
+            var result = await _userService.ExternalSignIn(new User{
+                Email = payload.Email,
+                    ExternalId = payload.Subject,
+                ExternalType = "GOOGLE"
+            });
+            return Created("",result);
+
+        }
     }
 }

@@ -18,7 +18,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JWT_SECRET": "secret jwt test enviroment variable",
-        "JWT_ISSUER": "My Expenses"
+        "JWT_ISSUER": "My Expenses",
+        "CLIENT_ID": "665405535098-9cr0la4hlb6p0nh49pfhht63td4orce1.apps.googleusercontent.com"
+
       }
     },
     "IIS Express": {
@@ -28,7 +30,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JWT_SECRET": "secret jwt test enviroment variable",
-        "JWT_ISSUER": "My Expenses"
+        "JWT_ISSUER": "My Expenses",
+        "CLIENT_ID": "665405535098-9cr0la4hlb6p0nh49pfhht63td4orce1.apps.googleusercontent.com"
       }
     }
   }
